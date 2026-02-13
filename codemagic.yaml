@@ -1,24 +1,38 @@
 workflows:
   android-release:
     name: Android Release Build
-    instance_type: mac_mini_m2
-    max_build_duration: 120
+    instance_type: linux_x2
     environment:
       android_signing:
-        - keystore_reference
-      vars:
-        PACKAGE_NAME: "com.plantidentifier.app"
-        APP_ID: plant-identifier
+        - release_keystore
+    triggering:
+      events:
+        - push
+      branch:
+        patterns:
+          - pattern: main
+            include: true
     scripts:
       - name: Install dependencies
-        script: npm install
+        script: |
+          npm install
       - name: Build Android APK
         script: |
           cd android
           ./gradlew assembleRelease
     artifacts:
-      - android/app/build/outputs/apk/release/*.apk
+      - android/app/build/outputs/apk/release/**/*.apk
     publishing:
       email:
         recipients:
           - djmarv_873@hotmail.com
+        notify:
+          success: true
+          failure: true
+
+android_signing:
+  release_keystore:
+    keystore_reference: plant_app_key
+    keystore_password: plantapp123
+    key_alias: plant_app_key
+    key_password: plantapp123
