@@ -5,13 +5,6 @@ workflows:
     environment:
       android_signing:
         - release_keystore
-    triggering:
-      events:
-        - push
-      branch:
-        patterns:
-          - pattern: main
-            include: true
     scripts:
       - name: Install dependencies
         script: |
