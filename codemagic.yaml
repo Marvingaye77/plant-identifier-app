@@ -1,7 +1,7 @@
 workflows:
   android-release:
     name: Android Release Build
-    instance_type: linux_x2
+    instance_type: linux
     environment:
       android_signing:
         - release_keystore
@@ -25,7 +25,7 @@ workflows:
 
 android_signing:
   release_keystore:
-    keystore_reference: plant_app_key
+    keystore_reference: release_keystore
     keystore_password: plantapp123
     key_alias: plant_app_key
     key_password: plantapp123
